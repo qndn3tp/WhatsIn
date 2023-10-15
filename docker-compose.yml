@@ -1,4 +1,4 @@
-version: '1'
+version: "3"
 
 services:
   postgres:
@@ -8,4 +8,4 @@ services:
       - POSTGRES_PASSWORD=abc123
       - POSTGRES_DB=whats_in
     ports:
-      -'5432:5432'
+      - '5432:5432'

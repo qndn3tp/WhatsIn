@@ -1,0 +1,30 @@
+name: CI Test
+on: [pull_request]
+
+env:
+  # SQLX_OFFLINE: true
+  DATABASE_URL: postgres://jollidah:abc123@localhost:5432/whats_in
+  SERVER_IP_PORT: 0.0.0.0:8000
+  ALLOW_ORIGINS: "http://localhost:8000"
+
+jobs:
+  ci-test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    
+    - name: Install toolchain
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+    
+    - name: build and test code
+      run: |
+        docker-compose -f "docker-compose.yml" up -d --build
+        cd ./be
+        cargo install sqlx-cli --no-default-features --features postgres
+        sqlx migrate run --database-url $DATABASE_URL
+        cargo build
+        cargo test -- --test-threads 1 --nocapture        
