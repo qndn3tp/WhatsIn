@@ -17,7 +17,24 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
+
+  late TabController _tabController;               // Enable tabs scroll horizontally
+
+  @override
+  // Called when widget is created
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 7, vsync: this);      // Create TabController, specify number of tabs: 7 tabs
+  }
+
+  @override
+  // Called when widget is completely terminated
+  void dispose() {
+  _tabController.dispose();
+  super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -36,6 +53,8 @@ class _MyAppState extends State<MyApp> {
         body: Column(
           children: [
             TabBar(                                 // TabBar: 7 tabs
+              controller: _tabController,
+              isScrollable: true,
               // design property
               indicatorColor: Color(0xff4C7A7E),
               labelStyle: TextStyle(fontWeight: FontWeight.bold),
@@ -53,6 +72,7 @@ class _MyAppState extends State<MyApp> {
             Expanded(
               child:
               TabBarView(
+                controller: _tabController,
                 children: [
                   Center(child: Text('전체 탭')),      // Tab1: "전체"
                   Center(child: Text('정치 탭')),      // Tab2: "정치"
