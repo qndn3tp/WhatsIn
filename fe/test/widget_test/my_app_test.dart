@@ -12,5 +12,15 @@ void main() {
 
     // AppBar에 프로필 아이콘이 있는지 확인
     expect(find.byIcon(Icons.account_circle), findsOneWidget);
-  });
+
+    // TabBar에 해당 탭 텍스트가 있는지 확인
+    expect(find.text("전체"), findsOneWidget);
+    expect(find.text("정치"), findsOneWidget);
+    expect(find.text("사회"), findsOneWidget);
+    expect(find.text("경제"), findsOneWidget);
+    expect(find.text("연예"), findsOneWidget);
+    expect(find.text("스포츠"), findsOneWidget);
+    expect(find.text("세계"), findsOneWidget);
+  }
+  );
 }
