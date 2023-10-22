@@ -33,7 +33,7 @@ make downgrade
 # Testing API for FE
 
 ## Run web server
-Suppose you are at the be directory, run server with 
+Assuming you are currently in the "be" directory, proceed to start the server by running:
 ```sh
 cargo run
 ```
