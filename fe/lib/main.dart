@@ -3,6 +3,16 @@ import './style.dart' as style;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+// 위젯
+import './widgets/Home.dart';
+import './widgets/Politics.dart';
+import './widgets/Economy.dart';
+import './widgets/Society.dart';
+import './widgets/Culture.dart';
+import './widgets/World.dart';
+import './widgets/Sports.dart';
+import './widgets/TechScience.dart';
+
 void main() {
   runApp(
       MaterialApp(
@@ -85,14 +95,14 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
               TabBarView(
                 controller: _tabController,
                 children: [
-                  Center(child: Text("전체 탭")),       // Tab1: "전체"
-                  Center(child: Text('정치 탭')),       // Tab2: "정치"
-                  Center(child: Text('경제 탭')),       // Tab3: "경제"
-                  Center(child: Text('사회 탭')),       // Tab4: "사회"
-                  Center(child: Text('문화 탭')),       // Tab5: "문화"
-                  Center(child: Text('세계 탭')),       // Tab6: "세계"
-                  Center(child: Text('스포츠 탭')),     // Tab7: "스포츠"
-                  Center(child: Text('IT/과학 탭')),    // Tab8: "IT/과학"
+                  Center(child: Home()),       // Tab1: "전체"
+                  Center(child: Politics()),       // Tab2: "정치"
+                  Center(child: Economy()),       // Tab3: "경제"
+                  Center(child: Society()),       // Tab4: "사회"
+                  Center(child: Culture()),       // Tab5: "문화"
+                  Center(child: World()),       // Tab6: "세계"
+                  Center(child: Sports()),     // Tab7: "스포츠"
+                  Center(child: TechScience()),    // Tab8: "IT/과학"
                 ],
               ),
             )
