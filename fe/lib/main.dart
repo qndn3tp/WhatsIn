@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import './style.dart' as style;
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 void main() {
   runApp(
@@ -21,10 +23,18 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
 
   late TabController _tabController;               // Enable tabs scroll horizontally
 
+  // Get data from server
+  getData() async{
+    var result = await http.get(Uri.parse("http://10.0.2.2:8000/api/vi/external/test"));
+    var result2 = json.decode(result.body);
+    print(result2);
+  }
+
   @override
   // Called when widget is created
   void initState() {
     super.initState();
+    getData();
     _tabController = TabController(length: 8, vsync: this);      // Create TabController, specify number of tabs: 8 tabs
   }
 
