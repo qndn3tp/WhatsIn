@@ -25,7 +25,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   // Called when widget is created
   void initState() {
     super.initState();
-    _tabController = TabController(length: 7, vsync: this);      // Create TabController, specify number of tabs: 7 tabs
+    _tabController = TabController(length: 8, vsync: this);      // Create TabController, specify number of tabs: 8 tabs
   }
 
   @override
@@ -38,7 +38,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 7,
+      length: 8,
       child: Scaffold(
         appBar: AppBar(                            // Title
           title: Text("왓츠인"),
@@ -52,7 +52,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
         ),
         body: Column(
           children: [
-            TabBar(                                 // TabBar: 7 tabs
+            TabBar(                                 // TabBar: 8 tabs
               controller: _tabController,
               isScrollable: true,
               // design property
@@ -62,11 +62,12 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
               tabs: [
                 Tab(text: "전체",),
                 Tab(text: "정치",),
-                Tab(text: "사회",),
                 Tab(text: "경제",),
-                Tab(text: "연예",),
-                Tab(text: "스포츠",),
+                Tab(text: "사회",),
+                Tab(text: "문화",),
                 Tab(text: "세계",),
+                Tab(text: "스포츠",),
+                Tab(text: "IT/과학",),
               ],
             ),
             Expanded(
@@ -74,13 +75,14 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
               TabBarView(
                 controller: _tabController,
                 children: [
-                  Center(child: Text('전체 탭')),      // Tab1: "전체"
-                  Center(child: Text('정치 탭')),      // Tab2: "정치"
-                  Center(child: Text('사회 탭')),      // Tab3: "사회"
-                  Center(child: Text('경제 탭')),      // Tab4: "경제"
-                  Center(child: Text('연예 탭')),      // Tab5: "연예"
-                  Center(child: Text('스포츠 탭')),     // Tab6: "스포츠"
-                  Center(child: Text('세계 탭')),      // Tab7: "세계"
+                  Center(child: Text("전체 탭")),       // Tab1: "전체"
+                  Center(child: Text('정치 탭')),       // Tab2: "정치"
+                  Center(child: Text('경제 탭')),       // Tab3: "경제"
+                  Center(child: Text('사회 탭')),       // Tab4: "사회"
+                  Center(child: Text('문화 탭')),       // Tab5: "문화"
+                  Center(child: Text('세계 탭')),       // Tab6: "세계"
+                  Center(child: Text('스포츠 탭')),     // Tab7: "스포츠"
+                  Center(child: Text('IT/과학 탭')),    // Tab8: "IT/과학"
                 ],
               ),
             )
