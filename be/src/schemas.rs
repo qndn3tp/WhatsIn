@@ -3,7 +3,8 @@ pub mod out_schemas {
     use utoipa::ToSchema;
 
     #[derive(Serialize, Debug, ToSchema)]
-    pub struct TestStruct{
-        pub (crate) string: String
+    pub struct News{
+        pub (crate) title: String,
+        pub (crate) body: String,
     }
 }
