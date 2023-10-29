@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './style.dart' as style;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:mockito/annotations.dart';
 
 // 위젯
 import './widgets/Home.dart';
@@ -12,6 +13,36 @@ import './widgets/Culture.dart';
 import './widgets/World.dart';
 import './widgets/Sports.dart';
 import './widgets/TechScience.dart';
+
+// Get data from server
+Future<NewsData> getNewsData(http.Client client) async {
+  final response = await client                                       // Send http GET requests to server url
+      .get(Uri.parse("http://10.0.2.2:8000/api/vi/external/test"));   // and processes the response
+
+  if (response.statusCode == 200) {                                   // Response is successful(200 ok), parse the Json
+    final result = json.decode(response.body);
+    print(result);
+    return NewsData.fromJson(result);
+  }
+  else {                                                              // Response is fail, throw an exception
+    throw Exception("Fail to laod");
+  }
+}
+
+// Define NewsData class
+class NewsData {
+  final String title;
+  final String body;
+
+  const NewsData({required this.title, required this.body,});
+
+  factory NewsData.fromJson(Map<String, dynamic> json) {              // Convert JSON data to NewsData object
+    return NewsData(
+      title: json['title'],
+      body: json['body'],
+    );
+  }
+}
 
 void main() {
   runApp(
@@ -33,18 +64,11 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
 
   late TabController _tabController;               // Enable tabs scroll horizontally
 
-  // Get data from server
-  getData() async{
-    var result = await http.get(Uri.parse("http://10.0.2.2:8000/api/vi/external/test"));
-    var result2 = json.decode(result.body);
-    print(result2);
-  }
-
   @override
   // Called when widget is created
   void initState() {
     super.initState();
-    getData();
+    getNewsData(http.Client());                                  // Send GET requests to server
     _tabController = TabController(length: 8, vsync: this);      // Create TabController, specify number of tabs: 8 tabs
   }
 
