@@ -15,11 +15,12 @@ serde_json = "1.0.107"
 tokio = { version = "1.33.0", features = ["rt", "rt-multi-thread", "macros"] }
 utoipa = {version="*",features=["axum_extras","uuid","chrono","decimal"]}
 utoipa-swagger-ui = { version="*" , features=["axum"] }
-sqlx = { version = "*", features = [ "runtime-tokio-rustls", "migrate", "postgres","uuid","chrono","offline","decimal","json"] }
+sqlx = { version = "*", features = [ "runtime-tokio-rustls", "migrate", "mysql", "uuid","chrono","offline","decimal","json"] }
 uuid = { version = "*", features = ["v4", "fast-rng", "macro-diagnostics","serde" ]}
 reqwest = {version="*",features=["json"]}
 tower = { version = "*", features = ["util", "timeout"] }
 tower-http = { version = "0.4.0", features = ["add-extension", "trace","cors"] }
+chrono = {version = "0.4.31", features = ["serde"]}
 
 
 [[bin]]

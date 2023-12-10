@@ -17,7 +17,7 @@ migration-prepare:
 	$(EXPORT) && cargo sqlx prepare
 
 upgrade:
-	$(EXPORT) && sqlx migrate run --database-url $(DATABASE_URL)
+	$(EXPORT) && sqlx migrate run
 
 downgrade:
 	$(EXPORT) && sqlx migrate revert --database-url $(DATABASE_URL)
