@@ -1,15 +1,29 @@
-use axum::{Router, routing::get, Json};
-use crate::schemas::out_schemas::News;
+use axum::{Router, routing::get, Json, extract::Query};
+use crate::{repository::news::NewsRepo, error::BatchError, schemas::QueryParams};
+use serde_json::{json, Value};
 
-#[utoipa::path( get,  path = "/api/vi/external/test")]
+
+#[utoipa::path( 
+    get,
+    path = "/api/vi/external/news",
+    params(
+        ("category" = Category, Query, description = "cartegory enum")
+    ),
+    responses(
+        (status = 200, description = "News", body = News),
+        (status = 404, description = "Not Found"),
+        (status = 500, description = "Internal Server Error")
+    )
+)]
 #[axum_macros::debug_handler]
-pub async fn news_router() -> Json<News> {
-    Json(News{ 
-        title: "Gun hae is idiot!!".to_string(), 
-        body: "Reseach which proved Gun hae is idiot has been reported".to_string(),})
+pub async fn get_news(
+    Query(query): Query<QueryParams>
+) -> Result<Json<Value>, BatchError> {
+    let json = json!(NewsRepo::get(&query.category).await?);
+    Ok(Json(json))
 }
 
 pub fn news_routers() -> Router<> {
     Router::new()
-    .route("/test", get(news_router))
+    .route("/news", get(get_news))
 }

@@ -1,11 +1,22 @@
-version: "3"
-
+version: '3'
 services:
-  postgres:
-    image: postgres:14.5
-    environment:
-      - POSTGRES_USER=jollidah
-      - POSTGRES_PASSWORD=abc123
-      - POSTGRES_DB=whats_in
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
     ports:
-      - '5432:5432'
+      - 3306:3306 # HOST:CONTAINER
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: true,
+      MYSQL_DATABASE: whats_in
+      MYSQL_USER: jollidah
+      MYSQL_PASSWORD: abc123
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - database:/mysql-init:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
+
+volumes:
+  database:
+    driver: local
