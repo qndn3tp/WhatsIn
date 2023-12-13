@@ -15,14 +15,18 @@ import './widgets/Sports.dart';
 import './widgets/TechScience.dart';
 
 // Get data from server
-Future<NewsData> getNewsData(http.Client client) async {
+Future<List<NewsData>> getNewsData(http.Client client) async {
   final response = await client                                       // Send http GET requests to server url
-      .get(Uri.parse("http://10.0.2.2:8000/api/vi/external/test"));   // and processes the response
+  .get(Uri.parse("http://localhost:8000/api/vi/external/news?category=science"));   // and processes the response
+
+  if (response.headers['content-type']?.toLowerCase().contains('charset=utf-8') != true) {  // Set encoding charset if it is not set in Content-Type header
+    response.headers['content-type'] = 'application/json; charset=utf-8';
+  }
 
   if (response.statusCode == 200) {                                   // Response is successful(200 ok), parse the Json
-    final result = json.decode(response.body);
-    print(result);
-    return NewsData.fromJson(result);
+    final List<dynamic> resultList = json.decode(response.body);
+    print(resultList);
+    return NewsData.fromJsonList(resultList);
   }
   else {                                                              // Response is fail, throw an exception
     throw Exception("Fail to laod");
@@ -31,16 +35,23 @@ Future<NewsData> getNewsData(http.Client client) async {
 
 // Define NewsData class
 class NewsData {
+  final String author;
+  final String description;
+  final String publishedAt;
   final String title;
-  final String body;
 
-  const NewsData({required this.title, required this.body,});
+  const NewsData({required this.author, required this.description, required this.publishedAt, required this.title});
 
   factory NewsData.fromJson(Map<String, dynamic> json) {              // Convert JSON data to NewsData object
     return NewsData(
-      title: json['title'],
-      body: json['body'],
+      author: json['author'] ?? 'Unknown Author',
+      description: json['description'] ?? 'No description',
+      publishedAt: json['publishedAt'] ?? 'Unknown publishedAt',
+      title: json['title'] ?? 'No title',
     );
+  }
+  static List<NewsData> fromJsonList(List<dynamic> jsonList) {        // Convert JSON data to NewsData object(List)
+    return jsonList.map((jsonItem) => NewsData.fromJson(jsonItem)).toList();
   }
 }
 
@@ -119,13 +130,13 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
               TabBarView(
                 controller: _tabController,
                 children: [
-                  Center(child: Home()),       // Tab1: "전체"
+                  Center(child: Home()),           // Tab1: "전체"
                   Center(child: Politics()),       // Tab2: "정치"
-                  Center(child: Economy()),       // Tab3: "경제"
-                  Center(child: Society()),       // Tab4: "사회"
-                  Center(child: Culture()),       // Tab5: "문화"
-                  Center(child: World()),       // Tab6: "세계"
-                  Center(child: Sports()),     // Tab7: "스포츠"
+                  Center(child: Economy()),        // Tab3: "경제"
+                  Center(child: Society()),        // Tab4: "사회"
+                  Center(child: Culture()),        // Tab5: "문화"
+                  Center(child: World()),          // Tab6: "세계"
+                  Center(child: Sports()),         // Tab7: "스포츠"
                   Center(child: TechScience()),    // Tab8: "IT/과학"
                 ],
               ),
