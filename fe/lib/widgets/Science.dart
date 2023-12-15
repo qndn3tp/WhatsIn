@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Culture extends StatelessWidget {
-  const Culture({super.key});
+class Science extends StatelessWidget {
+  const Science({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class Culture extends StatelessWidget {
         // Main space: News list
         Expanded(
             child: ListView.builder(
-                itemCount: 5,                         // itemCount: 5 hottest news in Culture
+                itemCount: 5,                         // itemCount: 5 hottest news in Science
                 itemBuilder: (c, i){
                   return Container(
                     // Design property

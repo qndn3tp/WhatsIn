@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:whatsin_fe/main.dart';
 import 'package:whatsin_fe/widgets/Home.dart';
-import 'package:whatsin_fe/widgets/Politics.dart';
-import 'package:whatsin_fe/widgets/Economy.dart';
-import 'package:whatsin_fe/widgets/Society.dart';
-import 'package:whatsin_fe/widgets/Culture.dart';
-import 'package:whatsin_fe/widgets/World.dart';
+import 'package:whatsin_fe/widgets/General.dart';
+import 'package:whatsin_fe/widgets/Business.dart';
+import 'package:whatsin_fe/widgets/Entertainment.dart';
 import 'package:whatsin_fe/widgets/Sports.dart';
-import 'package:whatsin_fe/widgets/TechScience.dart';
+import 'package:whatsin_fe/widgets/Technology.dart';
+import 'package:whatsin_fe/widgets/Science.dart';
+import 'package:whatsin_fe/widgets/Health.dart';
 
 void main() {
   // MyApp 위젯 테스트
@@ -21,11 +21,11 @@ void main() {
     expect(find.text("전체"), findsOneWidget);
     expect(find.text("정치"), findsOneWidget);
     expect(find.text("경제"), findsOneWidget);
-    expect(find.text("사회"), findsOneWidget);
-    expect(find.text("문화"), findsOneWidget);
-    expect(find.text("세계"), findsOneWidget);
+    expect(find.text("연예"), findsOneWidget);
     expect(find.text("스포츠"), findsOneWidget);
-    expect(find.text("IT/과학"), findsOneWidget);
+    expect(find.text("기술"), findsOneWidget);
+    expect(find.text("과학"), findsOneWidget);
+    expect(find.text("건강"), findsOneWidget);
   });
 
   // Home 위젯 테스트
@@ -34,45 +34,45 @@ void main() {
     expect(find.byType(Home), findsOneWidget);                  // Home 위젯이 화면에 표시되는지 확인
   });
 
-  // Politics 위젯 테스트
-  testWidgets('Test Politics widget', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(home: Politics(),));    // Politics 위젯을 빌드
-    expect(find.byType(Politics), findsOneWidget);              // Politics 위젯이 화면에 표시되는지 확인
+  // General 위젯 테스트
+  testWidgets('Test General widget', (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(home: General(),));    // General 위젯을 빌드
+    expect(find.byType(General), findsOneWidget);              // General 위젯이 화면에 표시되는지 확인
   });
 
-  // Economy 위젯 테스트
-  testWidgets('Test Politics widget', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(home: Economy(),));     // Economy 위젯을 빌드
-    expect(find.byType(Economy), findsOneWidget);               // Economy 위젯이 화면에 표시되는지 확인
+  // Business 위젯 테스트
+  testWidgets('Test Business widget', (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(home: Business(),));     // Business 위젯을 빌드
+    expect(find.byType(Business), findsOneWidget);               // Business 위젯이 화면에 표시되는지 확인
   });
 
-  // Society 위젯 테스트
-  testWidgets('Test Politics widget', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(home: Society(),));     // Society 위젯을 빌드
-    expect(find.byType(Society), findsOneWidget);               // Society 위젯이 화면에 표시되는지 확인
-  });
-
-  // Culture 위젯 테스트
-  testWidgets('Test Politics widget', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(home: Culture(),));     // Culture 위젯을 빌드
-    expect(find.byType(Culture), findsOneWidget);               // Culture 위젯이 화면에 표시되는지 확인
-  });
-
-  // World 위젯 테스트
-  testWidgets('Test Politics widget', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(home: World(),));       // World 위젯을 빌드
-    expect(find.byType(World), findsOneWidget);                 // World 위젯이 화면에 표시되는지 확인
+  // Entertainment 위젯 테스트
+  testWidgets('Test Entertainment widget', (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(home: Entertainment(),));     // Entertainment 위젯을 빌드
+    expect(find.byType(Entertainment), findsOneWidget);               // Entertainment 위젯이 화면에 표시되는지 확인
   });
 
   // Sports 위젯 테스트
-  testWidgets('Test Politics widget', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(home: Sports(),));      // Sports 위젯을 빌드
-    expect(find.byType(Sports), findsOneWidget);                // Sports 위젯이 화면에 표시되는지 확인
+  testWidgets('Test Sports widget', (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(home: Sports(),));     // Sports 위젯을 빌드
+    expect(find.byType(Sports), findsOneWidget);               // Sports 위젯이 화면에 표시되는지 확인
   });
 
-  // TechScience 위젯 테스트
-  testWidgets('Test Politics widget', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(home: TechScience(),));   // TechScience 위젯을 빌드
-    expect(find.byType(TechScience), findsOneWidget);             // TechScience 위젯이 화면에 표시되는지 확인
+  // Technology 위젯 테스트
+  testWidgets('Test Technology widget', (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(home: Technology(),));       // Technology 위젯을 빌드
+    expect(find.byType(Technology), findsOneWidget);                 // Technology 위젯이 화면에 표시되는지 확인
+  });
+
+  // Science 위젯 테스트
+  testWidgets('Test Science widget', (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(home: Science(),));      // Science 위젯을 빌드
+    expect(find.byType(Science), findsOneWidget);                // Science 위젯이 화면에 표시되는지 확인
+  });
+
+  // Health 위젯 테스트
+  testWidgets('Test Health widget', (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(home: Health(),));   // Health 위젯을 빌드
+    expect(find.byType(Health), findsOneWidget);             // Health 위젯이 화면에 표시되는지 확인
   });
 }

@@ -6,13 +6,13 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // 위젯
 import './widgets/Home.dart';
-import './widgets/Politics.dart';
-import './widgets/Economy.dart';
-import './widgets/Society.dart';
-import './widgets/Culture.dart';
-import './widgets/World.dart';
+import './widgets/General.dart';
+import './widgets/Business.dart';
+import './widgets/Entertainment.dart';
 import './widgets/Sports.dart';
-import './widgets/TechScience.dart';
+import './widgets/Technology.dart';
+import './widgets/Science.dart';
+import './widgets/Health.dart';
 
 // Get data from server
 Future<List<NewsData>> getNewsData(http.Client client) async {
@@ -122,11 +122,11 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                 Tab(text: "전체",),
                 Tab(text: "정치",),
                 Tab(text: "경제",),
-                Tab(text: "사회",),
-                Tab(text: "문화",),
-                Tab(text: "세계",),
+                Tab(text: "연예",),
                 Tab(text: "스포츠",),
-                Tab(text: "IT/과학",),
+                Tab(text: "기술",),
+                Tab(text: "과학",),
+                Tab(text: "건강",),
               ],
             ),
             Expanded(
@@ -134,14 +134,14 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
               TabBarView(
                 controller: _tabController,
                 children: [
-                  Center(child: Home()),           // Tab1: "전체"
-                  Center(child: Politics()),       // Tab2: "정치"
-                  Center(child: Economy()),        // Tab3: "경제"
-                  Center(child: Society()),        // Tab4: "사회"
-                  Center(child: Culture()),        // Tab5: "문화"
-                  Center(child: World()),          // Tab6: "세계"
-                  Center(child: Sports()),         // Tab7: "스포츠"
-                  Center(child: TechScience()),    // Tab8: "IT/과학"
+                  Center(child: Home()),              // Tab1: "전체"
+                  Center(child: General()),           // Tab2: "정치"
+                  Center(child: Business()),          // Tab3: "경제"
+                  Center(child: Entertainment()),     // Tab4: "연예"
+                  Center(child: Sports()),            // Tab5: "스포츠"
+                  Center(child: Technology()),        // Tab6: "기술"
+                  Center(child: Science()),           // Tab7: "과학"
+                  Center(child: Health()),            // Tab8: "건강"
                 ],
               ),
             )

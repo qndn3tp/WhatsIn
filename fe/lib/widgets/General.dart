@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Economy extends StatelessWidget {
-  const Economy({super.key});
+class General extends StatelessWidget {
+  const General({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class Economy extends StatelessWidget {
         // Main space: News list
         Expanded(
             child: ListView.builder(
-                itemCount: 5,                         // itemCount: 5 hottest news in Economy
+                itemCount: 5,                         // itemCount: 5 hottest news in General
                 itemBuilder: (c, i){
                   return Container(
                     // Design property
