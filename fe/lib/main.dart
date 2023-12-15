@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import './style.dart' as style;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:mockito/annotations.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // 위젯
 import './widgets/Home.dart';
@@ -16,8 +16,10 @@ import './widgets/TechScience.dart';
 
 // Get data from server
 Future<List<NewsData>> getNewsData(http.Client client) async {
-  final response = await client                                       // Send http GET requests to server url
-  .get(Uri.parse("http://localhost:8000/api/vi/external/news?category=science"));   // and processes the response
+  String api_url = dotenv.env['API_URL'] ?? "";                 // Get API_URL from env file and Set api_url
+  String science = dotenv.env['SCIENCE'] ?? "";                 // Choose Category
+
+  final response = await client.get(Uri.parse(api_url + science));        // Send http GET requests to server url and processes the response
 
   if (response.headers['content-type']?.toLowerCase().contains('charset=utf-8') != true) {  // Set encoding charset if it is not set in Content-Type header
     response.headers['content-type'] = 'application/json; charset=utf-8';
@@ -55,7 +57,9 @@ class NewsData {
   }
 }
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();      // Ensure async operation are execute only after initialized is complete
+  await dotenv.load();                            // Load environment variables from .env file
   runApp(
       MaterialApp(
         theme: style.theme,
