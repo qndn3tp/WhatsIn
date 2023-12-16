@@ -2,27 +2,33 @@ import 'package:flutter/material.dart';
 import './style.dart' as style;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:mockito/annotations.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // 위젯
 import './widgets/Home.dart';
-import './widgets/Politics.dart';
-import './widgets/Economy.dart';
-import './widgets/Society.dart';
-import './widgets/Culture.dart';
-import './widgets/World.dart';
+import './widgets/General.dart';
+import './widgets/Business.dart';
+import './widgets/Entertainment.dart';
 import './widgets/Sports.dart';
-import './widgets/TechScience.dart';
+import './widgets/Technology.dart';
+import './widgets/Science.dart';
+import './widgets/Health.dart';
 
 // Get data from server
-Future<NewsData> getNewsData(http.Client client) async {
-  final response = await client                                       // Send http GET requests to server url
-      .get(Uri.parse("http://10.0.2.2:8000/api/vi/external/test"));   // and processes the response
+Future<List<NewsData>> getNewsData(http.Client client) async {
+  String api_url = dotenv.env['API_URL'] ?? "";                 // Get API_URL from env file and Set api_url
+  String science = dotenv.env['SCIENCE'] ?? "";                 // Choose Category
+
+  final response = await client.get(Uri.parse(api_url + science));        // Send http GET requests to server url and processes the response
+
+  if (response.headers['content-type']?.toLowerCase().contains('charset=utf-8') != true) {  // Set encoding charset if it is not set in Content-Type header
+    response.headers['content-type'] = 'application/json; charset=utf-8';
+  }
 
   if (response.statusCode == 200) {                                   // Response is successful(200 ok), parse the Json
-    final result = json.decode(response.body);
-    print(result);
-    return NewsData.fromJson(result);
+    final List<dynamic> resultList = json.decode(response.body);
+    print(resultList);
+    return NewsData.fromJsonList(resultList);
   }
   else {                                                              // Response is fail, throw an exception
     throw Exception("Fail to laod");
@@ -31,20 +37,29 @@ Future<NewsData> getNewsData(http.Client client) async {
 
 // Define NewsData class
 class NewsData {
+  final String author;
+  final String description;
+  final String publishedAt;
   final String title;
-  final String body;
 
-  const NewsData({required this.title, required this.body,});
+  const NewsData({required this.author, required this.description, required this.publishedAt, required this.title});
 
   factory NewsData.fromJson(Map<String, dynamic> json) {              // Convert JSON data to NewsData object
     return NewsData(
-      title: json['title'],
-      body: json['body'],
+      author: json['author'] ?? 'Unknown Author',
+      description: json['description'] ?? 'No description',
+      publishedAt: json['publishedAt'] ?? 'Unknown publishedAt',
+      title: json['title'] ?? 'No title',
     );
+  }
+  static List<NewsData> fromJsonList(List<dynamic> jsonList) {        // Convert JSON data to NewsData object(List)
+    return jsonList.map((jsonItem) => NewsData.fromJson(jsonItem)).toList();
   }
 }
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();      // Ensure async operation are execute only after initialized is complete
+  await dotenv.load();                            // Load environment variables from .env file
   runApp(
       MaterialApp(
         theme: style.theme,
@@ -107,11 +122,11 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                 Tab(text: "전체",),
                 Tab(text: "정치",),
                 Tab(text: "경제",),
-                Tab(text: "사회",),
-                Tab(text: "문화",),
-                Tab(text: "세계",),
+                Tab(text: "연예",),
                 Tab(text: "스포츠",),
-                Tab(text: "IT/과학",),
+                Tab(text: "기술",),
+                Tab(text: "과학",),
+                Tab(text: "건강",),
               ],
             ),
             Expanded(
@@ -119,14 +134,14 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
               TabBarView(
                 controller: _tabController,
                 children: [
-                  Center(child: Home()),       // Tab1: "전체"
-                  Center(child: Politics()),       // Tab2: "정치"
-                  Center(child: Economy()),       // Tab3: "경제"
-                  Center(child: Society()),       // Tab4: "사회"
-                  Center(child: Culture()),       // Tab5: "문화"
-                  Center(child: World()),       // Tab6: "세계"
-                  Center(child: Sports()),     // Tab7: "스포츠"
-                  Center(child: TechScience()),    // Tab8: "IT/과학"
+                  Center(child: Home()),              // Tab1: "전체"
+                  Center(child: General()),           // Tab2: "정치"
+                  Center(child: Business()),          // Tab3: "경제"
+                  Center(child: Entertainment()),     // Tab4: "연예"
+                  Center(child: Sports()),            // Tab5: "스포츠"
+                  Center(child: Technology()),        // Tab6: "기술"
+                  Center(child: Science()),           // Tab7: "과학"
+                  Center(child: Health()),            // Tab8: "건강"
                 ],
               ),
             )
