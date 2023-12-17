@@ -1,6 +1,6 @@
-use std::{sync::OnceLock, env};
+use std::{env, sync::OnceLock};
 
-use sqlx::{MySql, Pool, MySqlPool};
+use sqlx::{MySql, MySqlPool, Pool};
 
 pub mod news;
 
@@ -11,7 +11,7 @@ pub fn connection_pool() -> &'static Pool<MySql> {
 			#[tokio::main]
 			async fn get_connection_pool() -> Pool<MySql> {
 				let database_url = &env::var("DATABASE_URL").expect("DATABASE_URL must be set");
-                    MySqlPool::connect(database_url).await.unwrap()
+				MySqlPool::connect(database_url).await.unwrap()
 			}
 			get_connection_pool()
 		})

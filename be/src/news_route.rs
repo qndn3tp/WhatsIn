@@ -1,9 +1,8 @@
-use axum::{Router, routing::get, Json, extract::Query};
-use crate::{repository::news::NewsRepo, error::BatchError, schemas::QueryParams};
+use crate::{error::BatchError, repository::news::NewsRepo, schemas::QueryParams};
+use axum::{extract::Query, routing::get, Json, Router};
 use serde_json::{json, Value};
 
-
-#[utoipa::path( 
+#[utoipa::path(
     get,
     path = "/api/vi/external/news",
     params(
@@ -16,14 +15,11 @@ use serde_json::{json, Value};
     )
 )]
 #[axum_macros::debug_handler]
-pub async fn get_news(
-    Query(query): Query<QueryParams>
-) -> Result<Json<Value>, BatchError> {
-    let json = json!(NewsRepo::get(&query.category).await?);
-    Ok(Json(json))
+pub async fn get_news(Query(query): Query<QueryParams>) -> Result<Json<Value>, BatchError> {
+	let json = json!(NewsRepo::get(&query.category).await?);
+	Ok(Json(json))
 }
 
-pub fn news_routers() -> Router<> {
-    Router::new()
-    .route("/news", get(get_news))
+pub fn news_routers() -> Router {
+	Router::new().route("/news", get(get_news))
 }

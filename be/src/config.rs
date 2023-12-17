@@ -25,13 +25,13 @@ impl Config {
 			country,
 			api_key,
 			page_size,
-    		crawling_duration,
+			crawling_duration,
 		}
 	}
 }
 
 pub fn config() -> &'static Config {
 	static CONFIG: OnceLock<Config> = OnceLock::new();
-	let config = CONFIG.get_or_init(|| Config::new());
+	let config = CONFIG.get_or_init(Config::new);
 	config
 }

@@ -32,5 +32,5 @@ pub mod in_schemas {
 
 #[derive(Debug, Deserialize)]
 pub struct QueryParams {
-    pub(crate) category: Category,
+	pub(crate) category: Category,
 }
