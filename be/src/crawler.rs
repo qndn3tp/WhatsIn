@@ -33,8 +33,7 @@ impl Crawler{
     // return Duration
     pub async fn run(&self) -> Result<(), BatchError>{
         let mut category = Category::Business;
-        NewsRepo::remove_all().await?;
-
+        println!("Start crawling..");
         loop {
             let request = NewsRequest::new(category.clone());
             let news_vec = request.crawl().await?;

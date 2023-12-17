@@ -16,7 +16,7 @@ impl NewsRepo {
                 title,
                 category,
                 description,
-                publishedAt,
+                published_at,
                 author
             )
             VALUES
@@ -31,7 +31,7 @@ impl NewsRepo {
 			news.title,
 			category.to_string(),
 			news.description,
-			news.publishedAt,
+			news.published_at,
 			news.author,
 		)
 		.execute(connection_pool())
@@ -48,7 +48,7 @@ impl NewsRepo {
             SELECT
                 title,
                 description,
-                publishedAt,
+                published_at,
                 author
             FROM news
             WHERE category = ?
@@ -75,7 +75,8 @@ impl NewsRepo {
 
 		Ok(())
 	}
-
+    
+    #[cfg(test)]
 	pub(crate) async fn remove_all() -> Result<(), BatchError> {
 		sqlx::query!(
 			r#"
@@ -109,13 +110,13 @@ use super::NewsRepo;
                 News {
                     title: "title2".to_string(),
                     description: Some("description2".to_string()),
-                    publishedAt: Utc::now(),
+                    published_at: Utc::now(),
                     author: author1.clone(),
                 },
                 News {
                     title: "title1".to_string(),
                     description: Some("description1".to_string()),
-                    publishedAt: Utc::now() - Days::new(1),
+                    published_at: Utc::now() - Days::new(1),
                     author: author2.clone(),
                 },
             ];
@@ -151,7 +152,7 @@ use super::NewsRepo;
                 News {
                     title: "title2".to_string(),
                     description: Some("description2".to_string()),
-                    publishedAt: Utc::now(),
+                    published_at: Utc::now(),
                     author: author1.clone(),
                 };
             '_when:{
