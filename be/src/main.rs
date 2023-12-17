@@ -15,12 +15,13 @@ use tokio::time;
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
-use crate::{news_route::news_routers, crawler::Crawler, swagger_docs::NewsDoc};
+use crate::{news_route::news_routers, crawler::Crawler, swagger_docs::NewsDoc, config::config};
 
 #[tokio::main]
 async fn main() {
 	dotenv::dotenv().ok();
 
+	let config = config();
 	let crawler = match Crawler::set_up() {
 		Ok(crawler) => crawler,
 		Err(err) => {
@@ -31,7 +32,7 @@ async fn main() {
 
 	crawler.run().await.expect("Crawl failed!");
 	tokio::spawn( async move {
-		time::sleep(Duration::from_secs(60)).await;
+		time::sleep(Duration::from_secs(config.crawling_duration)).await;
 		crawler.run().await.unwrap();
 	});
 
