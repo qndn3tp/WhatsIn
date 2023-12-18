@@ -1,6 +1,5 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
-// TODO snake_case
 #[derive(Debug, Clone, Serialize, Deserialize, ToSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum Category {
@@ -8,6 +7,9 @@ pub enum Category {
 	Science,
 	Entertainment,
 	General,
+	Health,
+	Sports,
+	Technology,
 }
 
 impl From<Category> for &str {
@@ -17,27 +19,27 @@ impl From<Category> for &str {
 			Category::Science => "science",
 			Category::Entertainment => "entertainment",
 			Category::General => "general",
+			Category::Health => "health",
+			Category::Sports => "sports",
+			Category::Technology => "technology",
 		}
 	}
 }
 
 impl Category {
 	pub(crate) fn to_string(&self) -> String {
-		match self {
-			Category::Business => "buisiness",
-			Category::Science => "science",
-			Category::Entertainment => "entertainment",
-			Category::General => "general",
-		}
-		.to_string()
+		<Category as Into<&str>>::into(self.to_owned()).to_string()
 	}
 
-	pub(crate) fn next(&self) -> Option<Self>{
-		match self{
-		Category::Business => Some(Category::Science),
-		Category::Science => Some(Category::Entertainment),
-		Category::Entertainment => Some(Category::General),
-		Category::General => None,
-	}
+	pub(crate) fn next(&self) -> Option<Self> {
+		match self {
+			Category::Business => Some(Category::Science),
+			Category::Science => Some(Category::Entertainment),
+			Category::Entertainment => Some(Category::General),
+			Category::General => Some(Category::Health),
+			Category::Health => Some(Category::Sports),
+			Category::Sports => Some(Category::Technology),
+			Category::Technology => None,
+		}
 	}
 }
