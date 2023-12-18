@@ -14,7 +14,6 @@ use serde_json::{json, Value};
         (status = 500, description = "Internal Server Error")
     )
 )]
-#[axum_macros::debug_handler]
 pub async fn get_news(Query(query): Query<QueryParams>) -> Result<Json<Value>, BatchError> {
 	let json = json!(NewsRepo::get(&query.category).await?);
 	Ok(Json(json))
