@@ -11,10 +11,9 @@ pub mod out_schemas {
 	#[derive(Serialize, Deserialize, Debug, ToSchema)]
 	pub struct News {
 		pub(crate) title: String,
-		// pub (crate) link: String,
-		// pub (crate) creator: Vec<String>,
 		pub(crate) description: Option<String>,
-		pub(crate) publishedAt: DateTime<Utc>,
+		#[serde(rename(deserialize = "publishedAt"))]
+		pub(crate) published_at: DateTime<Utc>,
 		pub(crate) author: Option<String>,
 	}
 }
@@ -33,5 +32,5 @@ pub mod in_schemas {
 
 #[derive(Debug, Deserialize)]
 pub struct QueryParams {
-    pub(crate) category: Category,
+	pub(crate) category: Category,
 }
