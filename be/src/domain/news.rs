@@ -1,4 +1,7 @@
+use std::{thread::sleep, time::Duration};
+
 use reqwest::Client;
+use tokio::time;
 
 use crate::{
 	config::config,
@@ -34,10 +37,10 @@ impl<'a> NewsRequest<'a> {
 			.get("https://newsapi.org/v2/top-headlines")
 			.query(&[
 				("apiKey", self.api_key),
-				("country", &config.country),
-				("category", self.category.clone().into()),
+				// ("country", &config.country),
+				("country", "us"),
+				// ("category", self.category.clone().into()),
 				("page_size", self.page_size),
-				("size", "1"),
 			])
 			.header(
 				"User-Agent",
@@ -46,8 +49,10 @@ impl<'a> NewsRequest<'a> {
 			.send()
 			.await
 			.map_err(|_| BatchError::HttpRequestError)?;
-
-		let response = serde_json::from_value::<ResponseNews>(response.json().await.unwrap()).map_err(|err| BatchError::ParsingError(Box::new(err)))?;
+		println!("{:#?}", response);
+		time::sleep(Duration::from_secs(config.crawling_duration)).await;
+		let response =
+			serde_json::from_value::<ResponseNews>(response.json().await.unwrap()).map_err(|err| BatchError::ParsingError(Box::new(err)))?;
 
 		match response.status.as_str() {
 			"ok" => Ok(response.articles),
