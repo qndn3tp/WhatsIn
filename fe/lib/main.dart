@@ -39,16 +39,16 @@ Future<List<NewsData>> getNewsData(http.Client client, {String category=""}) asy
 class NewsData {
   final String author;
   final String description;
-  final String publishedAt;
+  final String published_at;
   final String title;
 
-  const NewsData({required this.author, required this.description, required this.publishedAt, required this.title});
+  const NewsData({required this.author, required this.description, required this.published_at, required this.title});
 
   factory NewsData.fromJson(Map<String, dynamic> json) {              // Convert JSON data to NewsData object
     return NewsData(
       author: json['author'] ?? 'Unknown Author',
       description: json['description'] ?? 'No description',
-      publishedAt: json['publishedAt'] ?? 'Unknown publishedAt',
+      published_at: json['published_at'] ?? 'Unknown published time',
       title: json['title'] ?? 'No title',
     );
   }
