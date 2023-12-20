@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import '../main.dart';
+import 'package:http/http.dart' as http;
 
 class General extends StatelessWidget {
-  const General({super.key});
+  const General ({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,42 +23,56 @@ class General extends StatelessWidget {
                 itemBuilder: (c, i){
                   return Container(
                     // Design property
-                    margin: EdgeInsets.only(left: 35, top: 20, right: 35, bottom: 0),
-                    padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                        color: Color(0xffFAFAFA),
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xffE6E6E6),
-                            offset: Offset(0, 5),
-                            blurRadius: 8.0,
-                          )
-                        ]
-                    ),
+                      height: 130,
+                      width: 500,
+                      margin: EdgeInsets.only(left: 35, top: 20, right: 35, bottom: 0),
+                      padding: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                          color: Color(0xffFAFAFA),
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0xffE6E6E6),
+                              offset: Offset(0, 5),
+                              blurRadius: 8.0,
+                            )
+                          ]
+                      ),
 
-                    // Content
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // News image
-                        Container(
-                          height: 50,
-                          width: 60,
-                          child:Icon(Icons.image),
-                        ),
-                        //News title, News body
-                        Container(
-                          width: 200,
-                          child: Column(
-                            children: [
-                              Text("기사 제목", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),),
-                              Text("기사 본문", style: TextStyle(fontSize: 15),),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                      // Content
+                      child: FutureBuilder<List<NewsData>>(                             // Perform async operation
+                        future: getNewsData(http.Client(), category: "GENERAL"),
+                        builder: (context, snapshot) {                                  // snapshot: Object that includes async operation's result, state
+
+                          if (snapshot.connectionState == ConnectionState.waiting) {    // UI: when data is loading
+                            return CircularProgressIndicator();
+                          }
+                          else if (snapshot.hasError) {                                 // UI: when error occurs
+                            return Text('Error: ${snapshot.error}');
+                          }
+                          else {                                                        // UI: when data is successfully received
+                            NewsData newsData = snapshot.data![0];
+
+                            String title = newsData.title.length > 20                   // Cut the string to title's maximum length
+                                ? newsData.title.substring(0, 30) + '...'
+                                : newsData.title;
+
+                            String description = newsData.description.length > 100      // Cut the string to description's maximum length
+                                ? newsData.description.substring(0, 80) + '...'
+                                : newsData.description;
+
+                            //News title, News body
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
+                                Text(description, style: TextStyle(fontSize: 13),),
+                              ],
+                            );
+                          }
+                        },
+                      )
                   );}
             )
         )

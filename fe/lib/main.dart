@@ -15,11 +15,11 @@ import './widgets/Science.dart';
 import './widgets/Health.dart';
 
 // Get data from server
-Future<List<NewsData>> getNewsData(http.Client client) async {
+Future<List<NewsData>> getNewsData(http.Client client, {String category=""}) async {
   String api_url = dotenv.env['API_URL'] ?? "";                 // Get API_URL from env file and Set api_url
-  String science = dotenv.env['SCIENCE'] ?? "";                 // Choose Category
+  String cat = dotenv.env[category] ?? "";                      // Get Selected category from env file
 
-  final response = await client.get(Uri.parse(api_url + science));        // Send http GET requests to server url and processes the response
+  final response = await client.get(Uri.parse(api_url + cat));        // Send http GET requests to server url and processes the response
 
   if (response.headers['content-type']?.toLowerCase().contains('charset=utf-8') != true) {  // Set encoding charset if it is not set in Content-Type header
     response.headers['content-type'] = 'application/json; charset=utf-8';
@@ -39,16 +39,16 @@ Future<List<NewsData>> getNewsData(http.Client client) async {
 class NewsData {
   final String author;
   final String description;
-  final String publishedAt;
+  final String published_at;
   final String title;
 
-  const NewsData({required this.author, required this.description, required this.publishedAt, required this.title});
+  const NewsData({required this.author, required this.description, required this.published_at, required this.title});
 
   factory NewsData.fromJson(Map<String, dynamic> json) {              // Convert JSON data to NewsData object
     return NewsData(
       author: json['author'] ?? 'Unknown Author',
       description: json['description'] ?? 'No description',
-      publishedAt: json['publishedAt'] ?? 'Unknown publishedAt',
+      published_at: json['published_at'] ?? 'Unknown published time',
       title: json['title'] ?? 'No title',
     );
   }
