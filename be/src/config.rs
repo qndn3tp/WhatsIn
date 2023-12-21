@@ -17,7 +17,7 @@ impl Config {
 		let database_url = std::env::var("DATABASE_URL").expect("There must be DATABASE URL!!");
 		let country = std::env::var("COUNTRY").unwrap_or("kr".to_string());
 		let api_key = std::env::var("API_KEY").expect("There must be an API_KEY in .env!");
-		let page_size = std::env::var("PAGE_SIZE").unwrap_or("20".to_string());
+		let page_size = std::env::var("PAGE_SIZE").unwrap_or("100".to_string());
 		let crawling_duration = std::env::var("CARWLING_DURATION").unwrap_or("1440".to_string()).parse::<u64>().unwrap();
 		Config {
 			lang,
