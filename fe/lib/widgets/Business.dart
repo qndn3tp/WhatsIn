@@ -53,8 +53,8 @@ class Business extends StatelessWidget {
                           else {                                                        // UI: when data is successfully received
                             NewsData newsData = snapshot.data![0];
 
-                            String title = newsData.title.length > 20                   // Cut the string to title's maximum length
-                                ? newsData.title.substring(0, 30) + '...'
+                            String title = newsData.title.length > 100                   // Cut the string to title's maximum length
+                                ? newsData.title.substring(0, 80) + '...'
                                 : newsData.title;
 
                             String description = newsData.description.length > 100      // Cut the string to description's maximum length
