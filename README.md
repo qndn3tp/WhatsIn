@@ -17,7 +17,7 @@ Install the `sqlx-cli` tool using the following command:
 
 You can compose component with 
 ```sh
-docker-compose up -d --wait
+docker-compose up -d
 ```
 
 And for schema migration, you have to run the following command:
