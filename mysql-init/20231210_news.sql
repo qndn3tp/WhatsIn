@@ -5,5 +5,7 @@ CREATE TABLE IF NOT EXISTS news(
     category TEXT NOT NULL,
     description TEXT,
     published_at TIMESTAMP NOT NULL,
-    author TEXT
+    author TEXT,
+    url_to_article TEXT,
+    url_to_image TEXT
 );

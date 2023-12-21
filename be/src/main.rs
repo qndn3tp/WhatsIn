@@ -32,7 +32,7 @@ async fn main() {
 
 	crawler.run().await.expect("Crawl failed!");
 	tokio::spawn(async move {
-		time::sleep(Duration::from_secs(config.crawling_duration)).await;
+		time::sleep(Duration::from_secs(config.crawling_term_secs)).await;
 		crawler.run().await.unwrap();
 	});
 

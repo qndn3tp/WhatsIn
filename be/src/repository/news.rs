@@ -17,10 +17,14 @@ impl NewsRepo {
                 category,
                 description,
                 published_at,
-                author
+                author,
+                url_to_article,
+                url_to_image
             )
             VALUES
             (
+                ?,
+                ?,
                 ?,
                 ?,
                 ?,
@@ -33,6 +37,8 @@ impl NewsRepo {
 			news.description,
 			news.published_at,
 			news.author,
+			news.url_to_article,
+			news.url_to_image,
 		)
 		.execute(connection_pool())
 		.await
@@ -49,7 +55,9 @@ impl NewsRepo {
                 title,
                 description,
                 published_at,
-                author
+                author,
+                url_to_article,
+                url_to_image
             FROM news
             WHERE category = ?
         "#,
@@ -112,12 +120,16 @@ mod test {
 					description: Some("description2".to_string()),
 					published_at: Utc::now(),
 					author: author1.clone(),
+					url_to_article: Some("some url".to_string()),
+					url_to_image: Some("some url".to_string()),
 				},
 				News {
 					title: "title1".to_string(),
 					description: Some("description1".to_string()),
 					published_at: Utc::now() - Days::new(1),
 					author: author2.clone(),
+					url_to_article: Some("some url".to_string()),
+					url_to_image: Some("some url".to_string()),
 				},
 			];
 			'_when: {
@@ -149,6 +161,8 @@ mod test {
 				description: Some("description2".to_string()),
 				published_at: Utc::now(),
 				author: author1.clone(),
+				url_to_article: Some("some url".to_string()),
+				url_to_image: Some("some url".to_string()),
 			};
 			'_when: {
 				NewsRepo::add(&Category::Business, news).await.unwrap();
