@@ -53,7 +53,8 @@ impl<'a> NewsRequest<'a> {
 			}
 		)?;
 
-		let response = serde_json::from_value::<ResponseNews>(response.json().await.unwrap()).map_err(|err| BatchError::ParsingError(Box::new(err)))?;
+		let response =
+			serde_json::from_value::<ResponseNews>(response.json().await.unwrap()).map_err(|err| BatchError::ParsingError(Box::new(err)))?;
 
 		match response.status.as_str() {
 			"ok" => Ok(response.articles),
