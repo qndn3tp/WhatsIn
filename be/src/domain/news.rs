@@ -45,22 +45,13 @@ impl<'a> NewsRequest<'a> {
 			)
 			.send()
 			.await
-			.map_err(|err| 
-			{
-				// TODO add tracing::error!
-				println!("{:?}", err);
-				BatchError::HttpRequestError
-			}
-		)?;
+			.map_err(|_| BatchError::HttpRequestError)?;
 
 		let response = serde_json::from_value::<ResponseNews>(response.json().await.unwrap()).map_err(|err| BatchError::ParsingError(Box::new(err)))?;
 
 		match response.status.as_str() {
 			"ok" => Ok(response.articles),
-			_ => {
-				println!("{:#?}", response.articles);
-				Err(BatchError::HttpRequestError)
-			},
+			_ => Err(BatchError::HttpRequestError),
 		}
 	}
 }
