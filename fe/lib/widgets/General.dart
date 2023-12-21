@@ -53,21 +53,40 @@ class General extends StatelessWidget {
                           else {                                                        // UI: when data is successfully received
                             NewsData newsData = snapshot.data![0];
 
-                            String title = newsData.title.length > 100                   // Cut the string to title's maximum length
-                                ? newsData.title.substring(0, 80) + '...'
+                            String title = newsData.title.length > 50                   // Cut the string to title's maximum length
+                                ? newsData.title.substring(0, 50) + '...'
                                 : newsData.title;
 
-                            String description = newsData.description.length > 100      // Cut the string to description's maximum length
-                                ? newsData.description.substring(0, 80) + '...'
+                            String description = newsData.description.length > 50      // Cut the string to description's maximum length
+                                ? newsData.description.substring(0, 50) + '...'
                                 : newsData.description;
 
-                            //News title, News body
-                            return Column(
+                            String url_to_image = newsData.url_to_image;
+
+                            // News article
+                            return Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
-                                Text(description, style: TextStyle(fontSize: 13),),
+                                // News image
+                                Container(
+                                  margin: EdgeInsets.only(left: 0, top: 0,right: 20, bottom: 0),
+                                  height: 200,
+                                  width: 90,
+                                  child: Image.network(url_to_image),
+                                ),
+                                // News title, News body
+                                Container(
+                                  height: 200,
+                                  width: 280,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
+                                      Text(description, style: TextStyle(fontSize: 13),),
+                                    ],
+                                  ),
+                                )
                               ],
                             );
                           }
