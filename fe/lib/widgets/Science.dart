@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import '../main.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 class Science extends StatelessWidget {
   const Science ({super.key});
+
+  // Open external browser with url
+  Future<void> _launchUrl(String url) async {
+    if (!await launchUrl(Uri.parse(url))) {     // Attempt to open browser(success:return True / fail: return False)
+      throw Exception('Could not launch');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,31 +71,40 @@ class Science extends StatelessWidget {
 
                             String url_to_image = newsData.url_to_image;
 
+                            String url_to_article = newsData.url_to_article;
+
                             // News article
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                // News image
-                                Container(
-                                  margin: EdgeInsets.only(left: 0, top: 0,right: 20, bottom: 0),
-                                  height: 200,
-                                  width: 90,
-                                  child: Image.network(url_to_image),
+                            return Container(
+                              child: GestureDetector(
+                                onTap: (){
+                                  _launchUrl(url_to_article);                   // Clicked => Attempt to open browser(url_to_article)
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    // News image
+                                    Container(
+                                      margin: EdgeInsets.only(left: 0, top: 0,right: 20, bottom: 0),
+                                      height: 200,
+                                      width: 90,
+                                      child: Image.network(url_to_image),
+                                    ),
+                                    // News title, News body
+                                    Container(
+                                      height: 200,
+                                      width: 280,
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
+                                          Text(description, style: TextStyle(fontSize: 13),),
+                                        ],
+                                      ),
+                                    )
+                                  ],
                                 ),
-                                // News title, News body
-                                Container(
-                                  height: 200,
-                                  width: 280,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
-                                      Text(description, style: TextStyle(fontSize: 13),),
-                                    ],
-                                  ),
-                                )
-                              ],
+                              ),
                             );
                           }
                         },
