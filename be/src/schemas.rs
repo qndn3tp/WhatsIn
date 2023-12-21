@@ -15,6 +15,10 @@ pub mod out_schemas {
 		#[serde(rename(deserialize = "publishedAt"))]
 		pub(crate) published_at: DateTime<Utc>,
 		pub(crate) author: Option<String>,
+		#[serde(rename(deserialize = "url"))]
+		pub(crate) url_to_article: Option<String>,
+		#[serde(rename(deserialize = "urlToImage"))]
+		pub(crate) url_to_image: Option<String>,
 	}
 }
 
