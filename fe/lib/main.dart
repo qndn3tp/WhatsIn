@@ -41,8 +41,11 @@ class NewsData {
   final String description;
   final String published_at;
   final String title;
+  final String url_to_article;
+  final String url_to_image;
 
-  const NewsData({required this.author, required this.description, required this.published_at, required this.title});
+  const NewsData({required this.author, required this.description, required this.published_at,
+                  required this.title, required this.url_to_article, required this.url_to_image});
 
   factory NewsData.fromJson(Map<String, dynamic> json) {              // Convert JSON data to NewsData object
     return NewsData(
@@ -50,6 +53,8 @@ class NewsData {
       description: json['description'] ?? 'No description',
       published_at: json['published_at'] ?? 'Unknown published time',
       title: json['title'] ?? 'No title',
+      url_to_article: json['url_to_article'] ?? "No article url",
+      url_to_image: json['url_to_image'] ?? "No image"
     );
   }
   static List<NewsData> fromJsonList(List<dynamic> jsonList) {        // Convert JSON data to NewsData object(List)

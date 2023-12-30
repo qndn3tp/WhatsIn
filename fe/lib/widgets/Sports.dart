@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import '../main.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 class Sports extends StatelessWidget {
   const Sports ({super.key});
 
+  // Open external browser with url
+  Future<void> _launchUrl(String url) async {
+    if (!await launchUrl(Uri.parse(url))) {     // Attempt to open browser(success:return True / fail: return False)
+      throw Exception('Could not launch');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -53,22 +60,50 @@ class Sports extends StatelessWidget {
                           else {                                                        // UI: when data is successfully received
                             NewsData newsData = snapshot.data![0];
 
-                            String title = newsData.title.length > 20                   // Cut the string to title's maximum length
-                                ? newsData.title.substring(0, 30) + '...'
+                            String title = newsData.title.length > 50                   // Cut the string to title's maximum length
+                                ? newsData.title.substring(0, 50) + '...'
                                 : newsData.title;
 
-                            String description = newsData.description.length > 100      // Cut the string to description's maximum length
-                                ? newsData.description.substring(0, 80) + '...'
+                            String description = newsData.description.length > 50      // Cut the string to description's maximum length
+                                ? newsData.description.substring(0, 50) + '...'
                                 : newsData.description;
+                            
+                            String url_to_image = newsData.url_to_image;
 
-                            //News title, News body
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
-                                Text(description, style: TextStyle(fontSize: 13),),
-                              ],
+                            String url_to_article = newsData.url_to_article;
+
+                            // News article
+                            return Container(
+                              child: GestureDetector(
+                                onTap: (){
+                                  _launchUrl(url_to_article);                   // Clicked => Attempt to open browser(url_to_article)
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    // News image
+                                    Container(
+                                      margin: EdgeInsets.only(left: 0, top: 0,right: 20, bottom: 0),
+                                      height: 200,
+                                      width: 90,
+                                      child: Image.network(url_to_image),
+                                    ),
+                                    // News title, News body
+                                    Container(
+                                      height: 200,
+                                      width: 280,
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
+                                          Text(description, style: TextStyle(fontSize: 13),),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
                             );
                           }
                         },
