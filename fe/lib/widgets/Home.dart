@@ -23,7 +23,7 @@ class Home extends StatelessWidget {
       children: [
         // Text space: "어제의 뉴스"
         Container(
-          margin: EdgeInsets.only(left: 35, top:50, right: 0, bottom: 20),
+          margin: EdgeInsets.only(left: 35, top:50, right: 0, bottom: 10),
           child: Text("어제의 뉴스", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
         ),
 
@@ -64,8 +64,8 @@ class Home extends StatelessWidget {
                         else {                                                        // UI: when data is successfully received
                           NewsData newsData = snapshot.data![0];
 
-                          String title = newsData.title.length > 50                   // Cut the string to title's maximum length
-                              ? newsData.title.substring(0, 50) + '...'
+                          String title = newsData.title.length > 45                   // Cut the string to title's maximum length
+                              ? newsData.title.substring(0, 45) + '...'
                               : newsData.title;
 
                           String description = newsData.description.length > 50      // Cut the string to description's maximum length
@@ -99,7 +99,7 @@ class Home extends StatelessWidget {
                                           ],
                                         ),
                                         SizedBox(height: 5,),
-                                        Image.network(url_to_image)
+                                        Image.network(url_to_image, width: 200, height: 60, fit: BoxFit.fill)
                                       ],
                                     ),
                                   ),

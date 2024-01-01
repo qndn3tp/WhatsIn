@@ -60,8 +60,8 @@ class Sports extends StatelessWidget {
                           else {                                                        // UI: when data is successfully received
                             NewsData newsData = snapshot.data![0];
 
-                            String title = newsData.title.length > 50                   // Cut the string to title's maximum length
-                                ? newsData.title.substring(0, 50) + '...'
+                            String title = newsData.title.length > 45                   // Cut the string to title's maximum length
+                                ? newsData.title.substring(0, 45) + '...'
                                 : newsData.title;
 
                             String description = newsData.description.length > 50      // Cut the string to description's maximum length
@@ -84,9 +84,12 @@ class Sports extends StatelessWidget {
                                     // News image
                                     Container(
                                       margin: EdgeInsets.only(left: 0, top: 0,right: 20, bottom: 0),
-                                      height: 200,
-                                      width: 90,
-                                      child: Image.network(url_to_image),
+                                      child: Image.network(
+                                          url_to_image,
+                                          height: 60,
+                                          width: 90,
+                                          fit: BoxFit.fill
+                                      ),
                                     ),
                                     // News title, News body
                                     Container(

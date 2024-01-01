@@ -65,8 +65,8 @@ class Science extends StatelessWidget {
                                 ? newsData.title.substring(0, 50) + '...'
                                 : newsData.title;
 
-                            String description = newsData.description.length > 50      // Cut the string to description's maximum length
-                                ? newsData.description.substring(0, 50) + '...'
+                            String description = newsData.description.length > 45      // Cut the string to description's maximum length
+                                ? newsData.description.substring(0, 45) + '...'
                                 : newsData.description;
 
                             String url_to_image = newsData.url_to_image;
@@ -85,9 +85,12 @@ class Science extends StatelessWidget {
                                     // News image
                                     Container(
                                       margin: EdgeInsets.only(left: 0, top: 0,right: 20, bottom: 0),
-                                      height: 200,
-                                      width: 90,
-                                      child: Image.network(url_to_image),
+                                      child: Image.network(
+                                          url_to_image,
+                                          height: 60,
+                                          width: 90,
+                                          fit: BoxFit.fill
+                                      ),
                                     ),
                                     // News title, News body
                                     Container(
