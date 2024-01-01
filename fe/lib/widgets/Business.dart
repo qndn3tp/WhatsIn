@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../main.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
+import './widgets.dart';
 
 class Business extends StatelessWidget {
   const Business ({super.key});
@@ -19,10 +20,7 @@ class Business extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Text space: "어제의 뉴스"
-        Container(
-          margin: EdgeInsets.only(left: 35, top:50, right: 0, bottom: 20),
-          child: Text("어제의 뉴스", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-        ),
+        BodyText(),
 
         // Main space: News list
         Expanded(
@@ -100,8 +98,8 @@ class Business extends StatelessWidget {
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
-                                          Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
-                                          Text(description, style: TextStyle(fontSize: 13),),
+                                          Text(title, style: Theme.of(context).textTheme.displayMedium,),
+                                          Text(description, style: Theme.of(context).textTheme.displaySmall,),
                                         ],
                                       ),
                                     )

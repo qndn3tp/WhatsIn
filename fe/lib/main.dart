@@ -95,8 +95,8 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   @override
   // Called when widget is completely terminated
   void dispose() {
-  _tabController.dispose();
-  super.dispose();
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -119,10 +119,6 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
             TabBar(                                 // TabBar: 8 tabs
               controller: _tabController,
               isScrollable: true,
-              // design property
-              indicatorColor: Color(0xff4C7A7E),
-              labelStyle: TextStyle(fontWeight: FontWeight.bold),
-
               tabs: [
                 Tab(text: "전체",),
                 Tab(text: "정치",),
@@ -135,8 +131,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
               ],
             ),
             Expanded(
-              child:
-              TabBarView(
+              child: TabBarView(
                 controller: _tabController,
                 children: [
                   Center(child: Home()),              // Tab1: "전체"
