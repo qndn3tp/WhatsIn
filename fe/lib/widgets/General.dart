@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whatsin_fe/widgets/widgets.dart';
 import '../main.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
@@ -20,10 +21,7 @@ class General extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Text space: "어제의 뉴스"
-        Container(
-          margin: EdgeInsets.only(left: 35, top:50, right: 0, bottom: 20),
-          child: Text("어제의 뉴스", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-        ),
+        BodyText(),
 
         // Main space: News list
         Expanded(
@@ -62,8 +60,8 @@ class General extends StatelessWidget {
                           else {                                                        // UI: when data is successfully received
                             NewsData newsData = snapshot.data![0];
 
-                            String title = newsData.title.length > 50                   // Cut the string to title's maximum length
-                                ? newsData.title.substring(0, 50) + '...'
+                            String title = newsData.title.length > 45                  // Cut the string to title's maximum length
+                                ? newsData.title.substring(0, 45) + '...'
                                 : newsData.title;
 
                             String description = newsData.description.length > 50      // Cut the string to description's maximum length
@@ -86,9 +84,12 @@ class General extends StatelessWidget {
                                     // News image
                                     Container(
                                       margin: EdgeInsets.only(left: 0, top: 0,right: 20, bottom: 0),
-                                      height: 200,
-                                      width: 90,
-                                      child: Image.network(url_to_image),
+                                      child: Image.network(
+                                          url_to_image,
+                                          height: 60,
+                                          width: 90,
+                                          fit: BoxFit.fill
+                                      ),
                                     ),
                                     // News title, News body
                                     Container(
@@ -98,8 +99,8 @@ class General extends StatelessWidget {
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
-                                          Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
-                                          Text(description, style: TextStyle(fontSize: 13),),
+                                          Text(title, style: Theme.of(context).textTheme.displayMedium,),
+                                          Text(description, style: Theme.of(context).textTheme.displaySmall,),
                                         ],
                                       ),
                                     )

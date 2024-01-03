@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:whatsin_fe/widgets/widgets.dart';
 import '../main.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
+import '../style.dart' as style;
 
 class Home extends StatelessWidget {
   Home({super.key});
@@ -22,10 +24,7 @@ class Home extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Text space: "어제의 뉴스"
-        Container(
-          margin: EdgeInsets.only(left: 35, top:50, right: 0, bottom: 20),
-          child: Text("어제의 뉴스", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-        ),
+        BodyText(),
 
         // Main space: News list
         Expanded(
@@ -64,8 +63,8 @@ class Home extends StatelessWidget {
                         else {                                                        // UI: when data is successfully received
                           NewsData newsData = snapshot.data![0];
 
-                          String title = newsData.title.length > 50                   // Cut the string to title's maximum length
-                              ? newsData.title.substring(0, 50) + '...'
+                          String title = newsData.title.length > 45                   // Cut the string to title's maximum length
+                              ? newsData.title.substring(0, 45) + '...'
                               : newsData.title;
 
                           String description = newsData.description.length > 50      // Cut the string to description's maximum length
@@ -95,11 +94,11 @@ class Home extends StatelessWidget {
                                         Row(
                                           children: [
                                             SizedBox(width: 10,),
-                                            Text(categories_ko[i], style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xff33484A)),),
+                                            Text(categories_ko[i], style: style.catTextStyle,),
                                           ],
                                         ),
                                         SizedBox(height: 5,),
-                                        Image.network(url_to_image)
+                                        Image.network(url_to_image, width: 200, height: 60, fit: BoxFit.fill)
                                       ],
                                     ),
                                   ),
@@ -111,8 +110,8 @@ class Home extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
-                                        Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
-                                        Text(description, style: TextStyle(fontSize: 13),),
+                                        Text(title, style: Theme.of(context).textTheme.displayMedium,),
+                                        Text(description, style: Theme.of(context).textTheme.displaySmall,),
                                       ],
                                     ),
                                   )
