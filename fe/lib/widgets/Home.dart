@@ -63,12 +63,12 @@ class Home extends StatelessWidget {
                         else {                                                        // UI: when data is successfully received
                           NewsData newsData = snapshot.data![0];
 
-                          String title = newsData.title.length > 45                   // Cut the string to title's maximum length
-                              ? newsData.title.substring(0, 45) + '...'
+                          String title = newsData.title.length > 50                   // Cut the string to title's maximum length
+                              ? newsData.title.substring(0, 50) + '...'
                               : newsData.title;
 
-                          String description = newsData.description.length > 50      // Cut the string to description's maximum length
-                              ? newsData.description.substring(0, 50) + '...'
+                          String description = newsData.description.length > 30      // Cut the string to description's maximum length
+                              ? newsData.description.substring(0, 30) + '...'
                               : newsData.description;
 
                           String url_to_image = newsData.url_to_image;
@@ -91,14 +91,24 @@ class Home extends StatelessWidget {
                                     width: 90,
                                     child: Column(
                                       children: [
-                                        Row(
-                                          children: [
-                                            SizedBox(width: 10,),
-                                            Text(categories_ko[i], style: style.catTextStyle,),
-                                          ],
-                                        ),
-                                        SizedBox(height: 5,),
-                                        Image.network(url_to_image, width: 200, height: 60, fit: BoxFit.fill)
+                                        // Row(
+                                        //   children: [
+                                        //     SizedBox(width: 30,),
+                                        //     Text(categories_ko[i], style: style.catTextStyle,),
+                                        //   ],
+                                        // ),
+                                        // SizedBox(height: 5,),
+                                        Text(categories_ko[i], style: style.catTextStyle,),
+                                        SizedBox(height: 3,),
+                                        Image.network(
+                                          url_to_image,
+                                          width: 200,
+                                          height: 60,
+                                          fit: BoxFit.fill,
+                                          errorBuilder: (context, error, stackTrace) {    // If there is an error to load image(None)
+                                            return SizedBox(height: 60, width: 90);
+                                          },
+                                        )
                                       ],
                                     ),
                                   ),
