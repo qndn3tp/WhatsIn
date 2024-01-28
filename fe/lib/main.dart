@@ -49,12 +49,12 @@ class NewsData {
 
   factory NewsData.fromJson(Map<String, dynamic> json) {              // Convert JSON data to NewsData object
     return NewsData(
-      author: json['author'] ?? 'Unknown Author',
-      description: json['description'] ?? 'No description',
-      published_at: json['published_at'] ?? 'Unknown published time',
-      title: json['title'] ?? 'No title',
-      url_to_article: json['url_to_article'] ?? "No article url",
-      url_to_image: json['url_to_image'] ?? "No image"
+      author: json['author'] ?? "",
+      description: json['description'] ?? "",
+      published_at: json['published_at'] ?? "",
+      title: json['title'] ?? "",
+      url_to_article: json['url_to_article'] ?? "",
+      url_to_image: json['url_to_image'] ?? "e"
     );
   }
   static List<NewsData> fromJsonList(List<dynamic> jsonList) {        // Convert JSON data to NewsData object(List)

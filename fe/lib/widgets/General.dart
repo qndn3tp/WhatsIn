@@ -60,12 +60,12 @@ class General extends StatelessWidget {
                           else {                                                        // UI: when data is successfully received
                             NewsData newsData = snapshot.data![0];
 
-                            String title = newsData.title.length > 45                  // Cut the string to title's maximum length
-                                ? newsData.title.substring(0, 45) + '...'
+                            String title = newsData.title.length > 50                  // Cut the string to title's maximum length
+                                ? newsData.title.substring(0, 50) + '...'
                                 : newsData.title;
 
-                            String description = newsData.description.length > 50      // Cut the string to description's maximum length
-                                ? newsData.description.substring(0, 50) + '...'
+                            String description = newsData.description.length > 30      // Cut the string to description's maximum length
+                                ? newsData.description.substring(0, 30) + '...'
                                 : newsData.description;
 
                             String url_to_image = newsData.url_to_image;
@@ -88,7 +88,10 @@ class General extends StatelessWidget {
                                           url_to_image,
                                           height: 60,
                                           width: 90,
-                                          fit: BoxFit.fill
+                                          fit: BoxFit.fill,
+                                        errorBuilder: (context, error, stackTrace) {    // If there is an error to load image(None)
+                                          return SizedBox(height: 60, width: 90);
+                                        },
                                       ),
                                     ),
                                     // News title, News body

@@ -87,7 +87,10 @@ class Science extends StatelessWidget {
                                           url_to_image,
                                           height: 60,
                                           width: 90,
-                                          fit: BoxFit.fill
+                                          fit: BoxFit.fill,
+                                        errorBuilder: (context, error, stackTrace) {    // If there is an error to load image(None)
+                                          return SizedBox(height: 60, width: 90);
+                                        },
                                       ),
                                     ),
                                     // News title, News body
