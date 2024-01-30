@@ -1,5 +1,7 @@
 ## WhatsIn
 We offer you the most recent and noteworthy news on a daily basis!
+![WhatsIn_poster](https://github.com/qndn3tp/WhatsIn/assets/84118129/2d855714-aa86-4347-a096-b98d06a0b558)
+
 
 ---
 ## Initial Setup
