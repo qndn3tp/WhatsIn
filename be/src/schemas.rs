@@ -1,6 +1,6 @@
 use serde::Deserialize;
 
-use crate::enums::Category;
+use crate::enums::NewsCategory;
 
 pub mod out_schemas {
 	use chrono::{DateTime, Utc};
@@ -36,5 +36,5 @@ pub mod in_schemas {
 
 #[derive(Debug, Deserialize)]
 pub struct QueryParams {
-	pub(crate) category: Category,
+	pub(crate) category: NewsCategory,
 }

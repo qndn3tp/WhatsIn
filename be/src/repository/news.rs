@@ -1,4 +1,4 @@
-use crate::{enums::Category, error::BatchError, schemas::out_schemas::News};
+use crate::{enums::NewsCategory, error::BatchError, schemas::out_schemas::News, config::config};
 
 use super::connection_pool;
 
@@ -6,7 +6,7 @@ pub struct NewsRepo;
 
 impl NewsRepo {
 	pub async fn add(
-		category: &Category,
+		category: &NewsCategory,
 		news: News,
 	) -> Result<(), BatchError> {
 		sqlx::query!(
@@ -47,7 +47,7 @@ impl NewsRepo {
 	}
 
 	#[allow(non_snake_case)]
-	pub async fn get(category: &Category) -> Result<Vec<News>, BatchError> {
+	pub async fn get(category: &NewsCategory) -> Result<Vec<News>, BatchError> {
 		let rec = sqlx::query_as!(
 			News,
 			r#"
@@ -68,14 +68,25 @@ impl NewsRepo {
 		.map_err(|err| BatchError::DatabaseError(Box::new(err)))?;
 		Ok(rec.into_iter().collect::<Vec<News>>())
 	}
-
-	pub(crate) async fn remove(category: &Category) -> Result<(), BatchError> {
+	
+	pub(crate) async fn remove_except_latest_news(category: &NewsCategory) -> Result<(), BatchError> {
+		let conig = config();
 		sqlx::query!(
 			r#"
-            DELETE FROM news
-            WHERE category = ?
-        "#,
-			category.to_string()
+			DELETE FROM news 
+			WHERE published_at NOT IN (
+				SELECT published_at 
+				FROM (
+					SELECT published_at 
+					FROM news 
+					WHERE category = ?
+					ORDER BY published_at DESC 
+					LIMIT ?
+				) AS subquery
+			);
+        	"#,
+			category.to_string(),
+			conig.news_per_page,
 		)
 		.execute(connection_pool())
 		.await
@@ -103,7 +114,7 @@ impl NewsRepo {
 mod test {
 	use chrono::{Days, Utc};
 
-	use crate::{enums::Category, schemas::out_schemas::News};
+	use crate::{enums::NewsCategory, schemas::out_schemas::News};
 
 	use super::NewsRepo;
 
@@ -133,14 +144,14 @@ mod test {
 				},
 			];
 			'_when: {
-				for category in [&Category::Business, &Category::Entertainment, &Category::General, &Category::Science] {
+				for category in [&NewsCategory::Business, &NewsCategory::Entertainment, &NewsCategory::General, &NewsCategory::Science] {
 					let res = NewsRepo::get(category).await.unwrap();
 					assert_eq!(res.len(), 0);
 				}
 				for news in vec_news {
-					NewsRepo::add(&Category::Business, news).await.unwrap();
+					NewsRepo::add(&NewsCategory::Business, news).await.unwrap();
 				}
-				let res = NewsRepo::get(&Category::Business).await.unwrap();
+				let res = NewsRepo::get(&NewsCategory::Business).await.unwrap();
 				'_then: {
 					assert_eq!(res.len(), 2);
 					assert_eq!(res.iter().filter(|news| news.author == author1).collect::<Vec<&News>>().len(), 1);
@@ -165,15 +176,15 @@ mod test {
 				url_to_image: Some("some url".to_string()),
 			};
 			'_when: {
-				NewsRepo::add(&Category::Business, news).await.unwrap();
+				NewsRepo::add(&NewsCategory::Business, news).await.unwrap();
 
-				let res = NewsRepo::get(&Category::Business).await.unwrap();
+				let res = NewsRepo::get(&NewsCategory::Business).await.unwrap();
 				assert_eq!(res.len(), 1);
 
 				NewsRepo::remove_all().await.unwrap();
 
 				'_then: {
-					for category in [&Category::Business, &Category::Entertainment, &Category::General, &Category::Science] {
+					for category in [&NewsCategory::Business, &NewsCategory::Entertainment, &NewsCategory::General, &NewsCategory::Science] {
 						let res = NewsRepo::get(category).await.unwrap();
 						assert_eq!(res.len(), 0);
 					}

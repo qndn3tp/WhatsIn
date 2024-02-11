@@ -1,6 +1,6 @@
 use utoipa::OpenApi;
 
-use crate::{enums::Category, news_route, schemas::out_schemas::News};
+use crate::{enums::NewsCategory, news_route, schemas::out_schemas::News};
 
 #[derive(OpenApi)]
 #[openapi(
@@ -10,7 +10,7 @@ use crate::{enums::Category, news_route, schemas::out_schemas::News};
     components(
         schemas(
             News,
-            Category
+            NewsCategory
         )
     ),
     tags(
