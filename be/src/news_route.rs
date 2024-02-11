@@ -6,7 +6,7 @@ use serde_json::{json, Value};
     get,
     path = "/api/vi/external/news",
     params(
-        ("category" = Category, Query, description = "cartegory enum")
+        ("category" = NewsCategory, Query, description = "cartegory enum")
     ),
     responses(
         (status = 200, description = "News", body = News),

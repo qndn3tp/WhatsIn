@@ -7,7 +7,7 @@ use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
-use crate::{domain::news::NewsRequest, enums::Category, error::BatchError, repository::news::NewsRepo};
+use crate::{domain::news::NewsRequest, enums::NewsCategory, error::BatchError, repository::news::NewsRepo};
 
 #[derive(Deserialize, Serialize)]
 pub struct Crawler {
@@ -32,7 +32,7 @@ impl Crawler {
 
 	// return Duration
 	pub async fn run(&self) -> Result<(), BatchError> {
-		let mut category = Category::Business;
+		let mut category = NewsCategory::Business;
 		println!("Start crawling..");
 		loop {
 			let request = NewsRequest::new(category.clone());
@@ -40,9 +40,8 @@ impl Crawler {
 			// TODO Bulk insert
 			// TODO with this code, There can be a gap between crawling
 			for news in news_vec {
-				NewsRepo::remove(&category).await?;
-
 				NewsRepo::add(&category, news).await?;
+				NewsRepo::remove_except_latest_news(&category).await?;
 			}
 			category = if let Some(next) = category.next() {
 				next

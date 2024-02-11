@@ -2,7 +2,7 @@ use reqwest::Client;
 
 use crate::{
 	config::config,
-	enums::Category,
+	enums::NewsCategory,
 	error::BatchError,
 	schemas::{in_schemas::ResponseNews, out_schemas::News},
 };
@@ -10,12 +10,12 @@ use crate::{
 #[derive(Debug)]
 pub struct NewsRequest<'a> {
 	pub(crate) api_key: &'a str,
-	pub(crate) category: Category,
+	pub(crate) category: NewsCategory,
 	pub(crate) page_size: &'a str,
 }
 
 impl<'a> NewsRequest<'a> {
-	pub fn new(category: Category) -> Self {
+	pub fn new(category: NewsCategory) -> Self {
 		let config = config();
 		NewsRequest {
 			api_key: &config.api_key,
@@ -68,29 +68,29 @@ impl<'a> NewsRequest<'a> {
 
 #[cfg(test)]
 pub mod test {
-	use crate::{domain::news::NewsRequest, enums::Category};
+	use crate::{domain::news::NewsRequest, enums::NewsCategory};
 
 	#[tokio::test]
 	async fn test_business_crawl() {
-		let news_request = NewsRequest::new(Category::Business);
+		let news_request = NewsRequest::new(NewsCategory::Business);
 		news_request.crawl().await.unwrap();
 	}
 
 	#[tokio::test]
 	async fn test_science_crawl() {
-		let news_request = NewsRequest::new(Category::Science);
+		let news_request = NewsRequest::new(NewsCategory::Science);
 		news_request.crawl().await.unwrap();
 	}
 
 	#[tokio::test]
 	async fn test_entertainment_crawl() {
-		let news_request = NewsRequest::new(Category::Entertainment);
+		let news_request = NewsRequest::new(NewsCategory::Entertainment);
 		news_request.crawl().await.unwrap();
 	}
 
 	#[tokio::test]
 	async fn test_general_crawl() {
-		let news_request = NewsRequest::new(Category::General);
+		let news_request = NewsRequest::new(NewsCategory::General);
 		news_request.crawl().await.unwrap();
 	}
 }
